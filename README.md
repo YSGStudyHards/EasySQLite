@@ -13,7 +13,7 @@ SQLite是一个轻量级的嵌入式关系型数据库，它以一个小型的C�
 6. 跨平台：SQLite可以在多个操作系统上运行，包括Windows、Mac、Linux等。
 7. 公共领域代码：SQLite的源代码是公共领域的，可以免费用于商业或私人用途。
 
-## 文章教程
+## 文章详细教程
 - [第一天 SQLite 简介](https://mp.weixin.qq.com/s/wCKjqDv2hpvsu-01meSMNA)
 - 第二天
 - 第三天
