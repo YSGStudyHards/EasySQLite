@@ -22,7 +22,7 @@ SQLite是一个轻量级的嵌入式关系型数据库，它以一个小型的C�
 
 ## 文章详细教程
 - [第一天 SQLite 简介](https://mp.weixin.qq.com/s/wCKjqDv2hpvsu-01meSMNA)
-- 第二天
+- [第二天 在 Windows 上配置 SQLite环境](https://mp.weixin.qq.com/s/fbsLOfE1gQLG3OPpz3UZMA)
 - 第三天
 - 第四天
 - 第五天
