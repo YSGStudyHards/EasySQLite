@@ -42,7 +42,7 @@ SQLite是一个轻量级的嵌入式关系型数据库，它以一个小型的C�
 - [第一天 SQLite 简介](https://mp.weixin.qq.com/s/wCKjqDv2hpvsu-01meSMNA)
 - [第二天 在 Windows 上配置 SQLite环境](https://mp.weixin.qq.com/s/fbsLOfE1gQLG3OPpz3UZMA)
 - [第三天SQLite快速入门](https://mp.weixin.qq.com/s/wgMDqIdaQsMfOuiLl07ggw)
-- 第四天EasySQLite前后端项目框架搭建
+- [第四天EasySQLite前后端项目框架搭建](https://mp.weixin.qq.com/s/RTqRsTrzn7LdTBcMmBtkVw)
 - 第五天引入SQLite-net ORM并封装常用方法
-- 第六天后端班级管理相关接口完善&Swagger框架集成
+- 第六天后端班级管理相关接口完善
 - 第七天Blazor前端页面编写和接口对接
