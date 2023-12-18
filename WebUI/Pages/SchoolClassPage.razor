@@ -1,0 +1,126 @@
+﻿@page "/SchoolClass"        
+@inject HttpClient httpClient
+@using Entity;
+
+
+<h3>学校班级管理</h3>
+
+<!-- 显示班级列表 -->
+@if (classes != null)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>班级ID</th>
+                <th>班级名称</th>
+                <th>创建时间</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var schoolClass in classes)
+            {
+                <tr>
+                    <td>@schoolClass.ClassID</td>
+                    <td>@schoolClass.ClassName</td>
+                    <td>@schoolClass.CreateTime.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                    <td>
+                        <button class="btn btn-primary" @onclick="() => EditClass(schoolClass)">编辑</button>
+                        <button class="btn btn-danger" @onclick="() => DeleteClass(schoolClass.ClassID)">删除</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<!-- 班级编辑表单 -->
+@if (editingClass != null)
+{
+    <h4>编辑班级</h4>
+    <div class="form-group">
+        <label for="className">班级名称:</label>
+        <input class="form-control" id="className" type="text" @bind="@editingClass.ClassName" />
+    </div>
+    <button class="btn btn-primary" @onclick="SaveClass">保存</button>
+    <button class="btn btn-secondary" @onclick="CancelEdit">取消</button>
+}
+
+<!-- 添加班级表单 -->
+<h4>添加班级</h4>
+<div class="form-group">
+    <label for="newClassName">班级名称:</label>
+    <input class="form-control" id="newClassName" type="text" @bind="@newClassName" />
+</div>
+<button class="btn btn-success" @onclick="AddClass">添加班级</button>
+
+@code {
+    private List<SchoolClass> classes;
+    private SchoolClass editingClass;
+    private string newClassName;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadClasses();
+    }
+
+    private async Task LoadClasses()
+    {
+        classes = await httpClient.GetFromJsonAsync<List<SchoolClass>>("/SchoolClass");
+    }
+
+    private void EditClass(SchoolClass schoolClass)
+    {
+        editingClass = schoolClass;
+    }
+
+    private void CancelEdit()
+    {
+        editingClass = null;
+    }
+
+    private async Task SaveClass()
+    {
+        var response = await httpClient.PutAsJsonAsync($"/SchoolClass/{editingClass.ClassID}", editingClass);
+        if (response.IsSuccessStatusCode)
+        {
+            await LoadClasses();
+            editingClass = null;
+        }
+        else
+        {
+            var error = await response.Content.ReadAsStringAsync();
+            Console.WriteLine(error);
+        }
+    }
+
+    private async Task DeleteClass(int classId)
+    {
+        var response = await httpClient.DeleteAsync($"/SchoolClass/{classId}");
+        if (response.IsSuccessStatusCode)
+        {
+            await LoadClasses();
+        }
+        else
+        {
+            var error = await response.Content.ReadAsStringAsync();
+            Console.WriteLine(error);
+        }
+    }
+
+    private async Task AddClass()
+    {
+        var newClass = new SchoolClass { ClassName = newClassName };
+        var response = await httpClient.PostAsJsonAsync("/SchoolClass", newClass);
+        if (response.IsSuccessStatusCode)
+        {
+            await LoadClasses();
+            newClassName = string.Empty;
+        }
+        else
+        {
+            var error = await response.Content.ReadAsStringAsync();
+            Console.WriteLine(error);
+        }
+    }
+}

@@ -1,5 +1,6 @@
 using Entity;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json.Converters;
 using System.Reflection;
 using Utility;
 
@@ -16,6 +17,14 @@ namespace WebApi
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
+
+            builder.Services.AddControllers().AddNewtonsoftJson(options =>
+            {
+                //修改属性名称的序列化方式[前端想要使用与后端模型本身命名格式输出]
+                options.SerializerSettings.ContractResolver = null;
+                //日期类型默认格式化处理 
+                options.SerializerSettings.Converters.Add(new IsoDateTimeConverter() { DateTimeFormat = "yyyy-MM-dd HH:mm:ss" });
+            });
 
             // 添加Swagger服务
             builder.Services.AddSwaggerGen(options =>
