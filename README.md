@@ -45,7 +45,7 @@ SQLite是一个轻量级的嵌入式关系型数据库，它以一个小型的C�
 - [第四天EasySQLite前后端项目框架搭建](https://mp.weixin.qq.com/s/RTqRsTrzn7LdTBcMmBtkVw)
 - [第五天引入 SQLite-net ORM 并封装常用方法](https://mp.weixin.qq.com/s/RIT7HnPlrLg5KFtJ6a_Biw)
 - [第六天后端班级管理相关接口完善和Swagger自定义配置](https://mp.weixin.qq.com/s/dI6tb7WtOyB6p1iqYraH5g)
-- 第七天Blazor前端页面编写和接口对接
-- 使用本机 AOT 发布 ASP.NET Core 应用
-- .NET 8 Web应用使用Nginx Docker方式部署
-- [5个免费、跨平台的SQLite数据库可视化工具](https://mp.weixin.qq.com/s/73T4G9jH58Pd8LsBM_Am8w)
+- 第七天Blazor前端页面编写和接口对接（1）
+- 第七天Blazor前端页面编写和接口对接（2）
+- 第七天Blazor前端页面编写和接口对接（3）
+
