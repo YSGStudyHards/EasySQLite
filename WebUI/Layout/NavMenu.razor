@@ -1,4 +1,10 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿<link href="_content/BootstrapBlazor.FontAwesome/css/font-awesome.min.css" rel="stylesheet">
+<!-- 引用 BootstrapBlazor.FontAwesome 字体库包 -->
+<link href="_content/BootstrapBlazor.FontAwesome/css/font-awesome.min.css" rel="stylesheet">
+<!-- 引用 BootstrapBlazor 组件库包 -->
+<link href="_content/BootstrapBlazor/css/bootstrap.blazor.bundle.min.css" rel="stylesheet">
+
+<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="">WebUI</a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
@@ -11,17 +17,17 @@
     <nav class="flex-column">
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> 首页
+                <span class="bi fas fa-bullhorn" aria-hidden="true"></span> 首页
             </NavLink>
         </div>
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="SchoolClass">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> 班级管理
+                <span class="bi fas fa-book-journal-whills" aria-hidden="true"></span> 班级管理
             </NavLink>
         </div>
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="Student">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> 学生管理
+                <span class="bi fas fa-graduation-cap" aria-hidden="true"></span> 学生管理
             </NavLink>
         </div>
         <div class="nav-item px-3">
