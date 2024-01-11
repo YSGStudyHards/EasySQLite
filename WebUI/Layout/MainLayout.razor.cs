@@ -9,8 +9,6 @@ namespace WebUI.Layout
 
         private string Theme { get; set; } = "";
 
-        private bool IsOpen { get; set; }
-
         private bool IsFixedHeader { get; set; } = true;
 
         private bool IsFixedFooter { get; set; } = true;
@@ -36,8 +34,8 @@ namespace WebUI.Layout
             var menus = new List<MenuItem>
             {
                new MenuItem() { Text = "Home", Icon = "fa-solid fa-fw fa-flag", Url = "/" , Match = NavLinkMatch.All},
-               new MenuItem() { Text = "班级管理", Icon = "fa-solid fa-fw fas fa-user-secret", Url = "SchoolClass" },
-               new MenuItem() { Text = "学生管理", Icon = "fa-solid fa-fw fas fa-universal-access", Url = "Student" },
+               new MenuItem() { Text = "班级管理", Icon = "fa-solid fa-solid fa-users-gear", Url = "SchoolClass" },
+               new MenuItem() { Text = "学生管理", Icon = "fa-solid fa-solid fa-user-gear", Url = "Student" },
             };
 
             return menus;

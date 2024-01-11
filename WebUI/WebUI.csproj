@@ -18,10 +18,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="wwwroot\七天.NET 8操作SQLite入门到实战.png" />
   </ItemGroup>
 

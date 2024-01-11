@@ -1,24 +1,15 @@
 ﻿@page "/"
-<!-- 引用 BootstrapBlazor.FontAwesome 字体库包 -->
-<link href="_content/BootstrapBlazor.FontAwesome/css/font-awesome.min.css" rel="stylesheet">
-<!-- 引用 BootstrapBlazor 组件库包 -->
-<link href="_content/BootstrapBlazor/css/bootstrap.blazor.bundle.min.css" rel="stylesheet">
-
-<!--引入BootstrapBlazor 组件库包-->
-<script src="_content/BootstrapBlazor/js/bootstrap.blazor.bundle.min.js"></script>
-
 <PageTitle>Home</PageTitle>
 
-<h2>七天.NET 8操作SQLite入门到实战详细教程</h2>
-
-<h5>SQLite是一个轻量级的嵌入式关系型数据库，它以一个小型的C语言库的形式存在。它是一个自包含、无需服务器、零配置的数据库引擎。与传统的数据库系统不同，SQLite直接读写普通磁盘文件，不需要单独的数据库服务器。它支持标准的SQL查询语言，并提供了事务支持和ACID属性（原子性、一致性、隔离性和持久性）。</h5>
-
-
-<div class="images-item" style="width:60%;margin-top:10px;">
-    <ImageViewer Url="./七天.NET 8操作SQLite入门到实战.png" ShowPlaceHolder="false" />
+<div class="tab-scroll-body">
+    <Card IsCollapsible="true" HeaderText="七天.NET 8操作SQLite入门到实战详细教程" class="mb-3">
+        <BodyTemplate>
+            <Alert class="mb-0">
+                SQLite是一个轻量级的嵌入式关系型数据库，它以一个小型的C语言库的形式存在。它是一个自包含、无需服务器、零配置的数据库引擎。与传统的数据库系统不同，SQLite直接读写普通磁盘文件，不需要单独的数据库服务器。它支持标准的SQL查询语言，并提供了事务支持和ACID属性（原子性、一致性、隔离性和持久性）。
+            </Alert>
+        </BodyTemplate>
+    </Card>
 </div>
-
-
 
 <DemoBlock Title="基础用法" Introduction="可同时展开多个面板，面板之间不影响" Name="Normal">
     <Collapse OnCollapseChanged="@OnChanged">
