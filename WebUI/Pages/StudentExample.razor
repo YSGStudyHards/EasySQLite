@@ -1,0 +1,45 @@
+﻿@page "/StudentExample"
+@using WebUI.Model
+
+<!-- 官方文档表单维护：https://www.blazor.zone/table/edit -->
+
+<Table TItem="StudentViewModel"
+       Items="StudentInfoList"
+       AutoGenerateColumns="true"
+       ShowToolbar="true"
+       IsMultipleSelect="true"
+       OnSaveAsync="@OnSaveAsync"
+@*        OnQueryAsync="OnQueryAsync!" *@
+       IsStriped="true"
+       IsBordered="true"
+       ShowSearch="true"
+       IsPagination="true"
+       ShowSearchText="true">
+
+    <TableColumns>
+        <TableColumn Sortable="true" Filterable="true" Searchable="true" @bind-Field="@context.StudentID" />
+        <TableColumn Sortable="true" Filterable="true" Searchable="true" @bind-Field="@context.Name" />
+        <TableColumn Sortable="true" Filterable="true" Searchable="true" @bind-Field="@context.ClassName" />
+        <TableColumn Sortable="true" Filterable="true" Searchable="true" @bind-Field="@context.Gender" />
+    </TableColumns>
+    <SearchTemplate>
+        <GroupBox Title="搜索条件">
+            <div class="row g-3 form-inline">
+                <div class="col-12 col-sm-6">
+                    <BootstrapInput @bind-Value="@context.Name" PlaceHolder="请输入姓名" maxlength="50" ShowLabel="true" DisplayText="@context.Name" />
+                </div>
+                <div class="col-12 col-sm-6">
+                    <BootstrapInput @bind-Value="@context.Gender" PlaceHolder="请输入性别" maxlength="500" ShowLabel="true" DisplayText="@context.Gender" />
+                </div>
+            </div>
+        </GroupBox>
+    </SearchTemplate>
+
+</Table>
+
+
+@code {
+
+
+
+}
