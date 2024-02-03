@@ -1,5 +1,4 @@
 ﻿using BootstrapBlazor.Components;
-using Entity;
 using WebUI.Model;
 
 namespace WebUI.Pages
@@ -14,25 +13,65 @@ namespace WebUI.Pages
             StudentInfoList = GenerateUserInfos();
         }
 
+        /// <summary>
+        /// 模拟数据库用户信息生成
+        /// </summary>
+        /// <returns></returns>
         public static List<StudentViewModel> GenerateUserInfos()
         {
-            return new List<StudentViewModel>(Enumerable.Range(1, 10).Select(i => new StudentViewModel()
+            return new List<StudentViewModel>(Enumerable.Range(1, 200).Select(i => new StudentViewModel()
             {
                 StudentID = i,
                 ClassName = $"时光 {i} 班",
                 Name = GenerateRandomName(),
                 Age = random.Next(20, 50),
-                Gender = "男"
+                Gender = GenerateRandomGender()
             }));
         }
 
+        /// <summary>
+        /// 生成随机性别
+        /// </summary>
+        /// <returns></returns>
+        public static string GenerateRandomGender()
+        {
+            string[] genders = { "男", "女" };
+            return genders[random.Next(genders.Length)];
+        }
+
+        /// <summary>
+        /// 生成随机姓名
+        /// </summary>
+        /// <returns></returns>
         public static string GenerateRandomName()
         {
             string[] surnames = { "张", "王", "李", "赵", "刘" };
             string[] names = { "明", "红", "强", "丽", "军" };
-            string surname = surnames[random.Next(surnames.Length)]; // 随机获取一个姓氏
-            string name = names[random.Next(names.Length)]; // 随机获取一个名字
-            return surname + name; // 返回生成的姓名
+            string surname = surnames[random.Next(surnames.Length)];
+            string name = names[random.Next(names.Length)];
+            return surname + name;
+        }
+
+        /// <summary>
+        /// 数据查询
+        /// </summary>
+        /// <param name="options">options</param>
+        /// <returns></returns>
+        private Task<QueryData<StudentViewModel>> OnQueryAsync(QueryPageOptions options)
+        {
+            List<StudentViewModel> studentInfoData = StudentInfoList;
+
+            // 数据模糊过滤筛选
+            if (!string.IsNullOrWhiteSpace(options.SearchText))
+            {
+                studentInfoData = studentInfoData.Where(x => x.Name.Contains(options.SearchText)).ToList();
+            }
+
+            return Task.FromResult(new QueryData<StudentViewModel>()
+            {
+                Items = studentInfoData.Skip((options.PageIndex - 1) * options.PageItems).Take(options.PageItems).ToList(),
+                TotalCount = studentInfoData.Count()
+            });
         }
 
         /// <summary>
@@ -41,7 +80,7 @@ namespace WebUI.Pages
         /// <param name="studentInfo">studentInfo</param>
         /// <param name="changedType">changedType</param>
         /// <returns></returns>
-        public static Task<bool> OnSaveAsync(StudentViewModel studentInfo, ItemChangedType changedType)
+        public Task<bool> OnSaveAsync(StudentViewModel studentInfo, ItemChangedType changedType)
         {
             if (changedType.ToString() == "Update")
             {
@@ -58,6 +97,17 @@ namespace WebUI.Pages
             {
                 StudentInfoList.Add(studentInfo);
             }
+            return Task.FromResult(true);
+        }
+
+        /// <summary>
+        /// 数据删除
+        /// </summary>
+        /// <param name="items">items</param>
+        /// <returns></returns>
+        private Task<bool> OnDeleteAsync(IEnumerable<StudentViewModel> items)
+        {
+            items.ToList().ForEach(i => StudentInfoList.Remove(i));
             return Task.FromResult(true);
         }
     }
