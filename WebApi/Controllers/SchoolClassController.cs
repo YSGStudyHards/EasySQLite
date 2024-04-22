@@ -1,7 +1,6 @@
 ﻿using Entity;
 using Microsoft.AspNetCore.Mvc;
 using Utility;
-using WebApi.ViewModel;
 
 namespace WebApi.Controllers
 {
@@ -9,7 +8,7 @@ namespace WebApi.Controllers
     /// 学校班级管理
     /// </summary>
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]/[action]")]
     public class SchoolClassController : ControllerBase
     {
         private readonly SQLiteAsyncHelper<SchoolClass> _schoolClassHelper;

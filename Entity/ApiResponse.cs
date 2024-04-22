@@ -1,4 +1,4 @@
-﻿namespace WebApi.ViewModel
+﻿namespace Entity
 {
     public class ApiResponse<T>
     {

@@ -1,7 +1,9 @@
 ﻿@page "/SchoolClass"
 @using Entity
+@using WebUI.Common
+@inject HttpClient _httpClient;
 
-@* <Table TItem="SchoolClass"
+<Table TItem="SchoolClass"
        AutoGenerateColumns="true"
        ShowToolbar="true"
        IsMultipleSelect="true"
@@ -16,6 +18,7 @@
 
     <TableColumns>
         <TableColumn Sortable="true" Filterable="true" Searchable="true" @bind-Field="@context.ClassName" />
+        <TableColumn @bind-Field="@context.ClassID" IsVisibleWhenAdd="false" IsVisibleWhenEdit="true"  />
     </TableColumns>
 
     <SearchTemplate>
@@ -27,5 +30,87 @@
             </div>
         </GroupBox>
     </SearchTemplate>
-</Table> *@
+</Table>
 
+@code {
+    /// <summary>
+    /// 数据查询
+    /// </summary>
+    /// <param name="options">options</param>
+    /// <returns></returns>
+    private async Task<QueryData<SchoolClass>> OnQueryAsync(QueryPageOptions options)
+    {
+        var getClass = new List<SchoolClass>();
+        var getResults = await _httpClient.GetFromJsonAsync<ApiResponse<List<SchoolClass>>>("api/SchoolClass/GetClass").ConfigureAwait(false);
+        if (getResults.Success)
+        {
+            // 数据模糊过滤筛选
+            if (!string.IsNullOrWhiteSpace(options.SearchText))
+            {
+                getClass = getResults.Data.Where(x => x.ClassName.Contains(options.SearchText)).ToList();
+            }
+            else
+            {
+                getClass = getResults.Data.ToList();
+            }
+        }
+
+        //假分页
+        return await Task.FromResult(new QueryData<SchoolClass>()
+            {
+                Items = getClass.Skip((options.PageIndex - 1) * options.PageItems).Take(options.PageItems).ToList(),
+                TotalCount = getClass.Count()
+            });
+    }
+
+    /// <summary>
+    /// 模拟数据增加和修改操作
+    /// </summary>
+    /// <param name="studentInfo">studentInfo</param>
+    /// <param name="changedType">changedType</param>
+    /// <returns></returns>
+    public async Task<bool> OnSaveAsync(SchoolClass studentInfo, ItemChangedType changedType)
+    {
+        if (changedType.ToString() == "Update")
+        {
+            var addResult = await _httpClient.PostAsJsonAsync("api/SchoolClass/UpdateClass", studentInfo).ConfigureAwait(false);
+            if (UtilityBusiness.CheckResponse(addResult))
+            {
+                return await Task.FromResult(true);
+            }
+            else
+            {
+                return await Task.FromResult(false);
+            }
+        }
+        else if (changedType.ToString() == "Add")
+        {
+            var addResult = await _httpClient.PostAsJsonAsync("api/SchoolClass/CreateClass", studentInfo).ConfigureAwait(false);
+            if (UtilityBusiness.CheckResponse(addResult))
+            {
+                return await Task.FromResult(true);
+            }
+            else
+            {
+                return await Task.FromResult(false);
+            }
+        }
+
+        return await Task.FromResult(true);
+    }
+
+    /// <summary>
+    /// 数据删除
+    /// </summary>
+    /// <param name="items">items</param>
+    /// <returns></returns>
+    private async Task<bool> OnDeleteAsync(IEnumerable<SchoolClass> items)
+    {
+        var schoolClassList = items.ToList();
+        foreach (var item in schoolClassList)
+        {
+            var delResult = await _httpClient.PostAsJsonAsync("api/SchoolClass/DeleteClass", item).ConfigureAwait(false);
+        }
+        return await Task.FromResult(true);
+    }
+}

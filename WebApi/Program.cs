@@ -12,8 +12,6 @@ namespace WebApi
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
-
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
@@ -23,7 +21,7 @@ namespace WebApi
                 //修改属性名称的序列化方式[前端想要使用与后端模型本身命名格式输出]
                 options.SerializerSettings.ContractResolver = null;
                 //日期类型默认格式化处理 
-                options.SerializerSettings.Converters.Add(new IsoDateTimeConverter() { DateTimeFormat = "yyyy-MM-dd HH:mm:ss" });
+                //options.SerializerSettings.Converters.Add(new IsoDateTimeConverter() { DateTimeFormat = "yyyy-MM-dd HH:mm:ss" });
             });
 
             // 添加Swagger服务
@@ -51,6 +49,17 @@ namespace WebApi
                 options.OrderActionsBy(o => o.RelativePath);
             });
 
+            var PolicyCorsName = "EasySQLitePolicy";
+
+            builder.Services.AddCors(option =>
+            {
+                option.AddPolicy(PolicyCorsName, builder =>
+                {
+                    builder.AllowAnyOrigin()
+                      .AllowAnyMethod()
+                      .AllowAnyHeader();
+                });
+            });
 
             // 注册服务
             builder.Services.AddScoped<SQLiteAsyncHelper<SchoolClass>>();
@@ -66,6 +75,8 @@ namespace WebApi
             }
 
             app.UseHttpsRedirection();
+
+            app.UseCors(PolicyCorsName);
 
             app.UseAuthorization();
 
