@@ -1,3 +1,31 @@
 ﻿@page "/SchoolClass"
-@inject HttpClient httpClient
+@using Entity
+
+@* <Table TItem="SchoolClass"
+       AutoGenerateColumns="true"
+       ShowToolbar="true"
+       IsMultipleSelect="true"
+       OnSaveAsync="@OnSaveAsync"
+       OnQueryAsync="@OnQueryAsync"
+       OnDeleteAsync="@OnDeleteAsync"
+       IsStriped="true"
+       IsBordered="true"
+       ShowSearch="true"
+       IsPagination="true"
+       ShowSearchText="true">
+
+    <TableColumns>
+        <TableColumn Sortable="true" Filterable="true" Searchable="true" @bind-Field="@context.ClassName" />
+    </TableColumns>
+
+    <SearchTemplate>
+        <GroupBox Title="搜索条件">
+            <div class="row g-3 form-inline">
+                <div class="col-12 col-sm-6">
+                    <BootstrapInput @bind-Value="@context.ClassName" PlaceHolder="请输入班级名称" maxlength="50" ShowLabel="true" DisplayText="姓名" />
+                </div>
+            </div>
+        </GroupBox>
+    </SearchTemplate>
+</Table> *@
 

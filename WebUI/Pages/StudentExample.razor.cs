@@ -57,7 +57,7 @@ namespace WebUI.Pages
         /// </summary>
         /// <param name="options">options</param>
         /// <returns></returns>
-        private Task<QueryData<StudentViewModel>> OnQueryAsync(QueryPageOptions options)
+        private async Task<QueryData<StudentViewModel>> OnQueryAsync(QueryPageOptions options)
         {
             List<StudentViewModel> studentInfoData = StudentInfoList;
 
@@ -67,7 +67,7 @@ namespace WebUI.Pages
                 studentInfoData = studentInfoData.Where(x => x.Name.Contains(options.SearchText)).ToList();
             }
 
-            return Task.FromResult(new QueryData<StudentViewModel>()
+            return await Task.FromResult(new QueryData<StudentViewModel>()
             {
                 Items = studentInfoData.Skip((options.PageIndex - 1) * options.PageItems).Take(options.PageItems).ToList(),
                 TotalCount = studentInfoData.Count()
@@ -80,7 +80,7 @@ namespace WebUI.Pages
         /// <param name="studentInfo">studentInfo</param>
         /// <param name="changedType">changedType</param>
         /// <returns></returns>
-        public Task<bool> OnSaveAsync(StudentViewModel studentInfo, ItemChangedType changedType)
+        public async Task<bool> OnSaveAsync(StudentViewModel studentInfo, ItemChangedType changedType)
         {
             if (changedType.ToString() == "Update")
             {
@@ -97,7 +97,7 @@ namespace WebUI.Pages
             {
                 StudentInfoList.Add(studentInfo);
             }
-            return Task.FromResult(true);
+            return await Task.FromResult(true);
         }
 
         /// <summary>
@@ -105,10 +105,10 @@ namespace WebUI.Pages
         /// </summary>
         /// <param name="items">items</param>
         /// <returns></returns>
-        private Task<bool> OnDeleteAsync(IEnumerable<StudentViewModel> items)
+        private async Task<bool> OnDeleteAsync(IEnumerable<StudentViewModel> items)
         {
             items.ToList().ForEach(i => StudentInfoList.Remove(i));
-            return Task.FromResult(true);
+            return await Task.FromResult(true);
         }
     }
 }
