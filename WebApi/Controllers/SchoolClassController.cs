@@ -32,6 +32,17 @@ namespace WebApi.Controllers
         {
             try
             {
+                var querySchoolClass = await _schoolClassHelper.QuerySingleAsync(c => c.ClassName == schoolClass.ClassName).ConfigureAwait(false);
+                if (querySchoolClass != null)
+                {
+                    return new ApiResponse<int>
+                    {
+                        Success = false,
+                        Message = $"创建班级失败，班级{schoolClass.ClassName}已存在"
+                    };
+                }
+
+                schoolClass.CreateTime = DateTime.Now;
                 int insertNumbers = await _schoolClassHelper.InsertAsync(schoolClass);
                 if (insertNumbers > 0)
                 {

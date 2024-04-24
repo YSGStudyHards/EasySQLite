@@ -1,4 +1,7 @@
-﻿namespace WebUI.Common
+﻿using Entity;
+using System.Text.Json;
+
+namespace WebUI.Common
 {
     public class UtilityBusiness
     {
@@ -6,7 +9,9 @@
         {
             if (response.IsSuccessStatusCode)
             {
-                return true;
+                string jsonResponse = response.Content.ReadAsStringAsync().Result;
+                var result = JsonSerializer.Deserialize<ApiResponse<int>>(jsonResponse) ?? new ApiResponse<int>();
+                return result.Success;
             }
             else
             {

@@ -17,8 +17,9 @@
        ShowSearchText="true">
 
     <TableColumns>
-        <TableColumn Sortable="true" Filterable="true" Searchable="true" @bind-Field="@context.ClassName" />
-        <TableColumn @bind-Field="@context.ClassID" IsVisibleWhenAdd="false" IsVisibleWhenEdit="true"  />
+        <TableColumn Sortable="true" Filterable="true" Searchable="true" @bind-Field="@context.ClassName" PlaceHolder="请输入班级名称" />
+        <TableColumn @bind-Field="@context.ClassID" IsVisibleWhenAdd="false" IsVisibleWhenEdit="false" />
+        <TableColumn @bind-Field="@context.CreateTime" IsVisibleWhenAdd="false" IsVisibleWhenEdit="false" />
     </TableColumns>
 
     <SearchTemplate>
@@ -73,7 +74,7 @@
     {
         if (changedType.ToString() == "Update")
         {
-            var addResult = await _httpClient.PostAsJsonAsync("api/SchoolClass/UpdateClass", studentInfo).ConfigureAwait(false);
+            var addResult = await _httpClient.PutAsJsonAsync($"api/SchoolClass/UpdateClass/{studentInfo.ClassID}", studentInfo).ConfigureAwait(false);
             if (UtilityBusiness.CheckResponse(addResult))
             {
                 return await Task.FromResult(true);
@@ -106,11 +107,25 @@
     /// <returns></returns>
     private async Task<bool> OnDeleteAsync(IEnumerable<SchoolClass> items)
     {
+        var deleteSuccessNum = 0;
         var schoolClassList = items.ToList();
         foreach (var item in schoolClassList)
         {
-            var delResult = await _httpClient.PostAsJsonAsync("api/SchoolClass/DeleteClass", item).ConfigureAwait(false);
+            var delResult = await _httpClient.DeleteAsync($"api/SchoolClass/DeleteClass/{item.ClassID}").ConfigureAwait(false);
+            if (UtilityBusiness.CheckResponse(delResult))
+            {
+                deleteSuccessNum++;
+            }
         }
-        return await Task.FromResult(true);
+
+        if (deleteSuccessNum > 0)
+        {
+            return await Task.FromResult(true);
+        }
+        else
+        {
+            return await Task.FromResult(false);
+        }
+
     }
 }
