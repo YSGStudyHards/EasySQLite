@@ -1,7 +1,141 @@
 ﻿@page "/Student"
+@using Entity
+@using Entity.ViewModel
+@using WebUI.Common
+@inject HttpClient _httpClient;
 
+<Table TItem="StudentViewModel"
+       AutoGenerateColumns="true"
+       ShowToolbar="true"
+       IsMultipleSelect="true"
+       OnSaveAsync="@OnSaveAsync"
+       OnQueryAsync="@OnQueryAsync"
+       OnDeleteAsync="@OnDeleteAsync"
+       IsStriped="true"
+       IsBordered="true"
+       ShowSearch="true"
+       IsPagination="true"
+       ShowSearchText="true">
 
+    <TableColumns>
+        <TableColumn @bind-Field="@context.ClassName" Sortable="true" Filterable="true" Searchable="true" TextWrap="true" ShowSearchWhenSelect></TableColumn>
+        <TableColumn Sortable="true" Filterable="true" Searchable="true" @bind-Field="@context.Name" PlaceHolder="请输入学生名称" />
+        <TableColumn Sortable="true" Filterable="true" Searchable="true" @bind-Field="@context.Age" PlaceHolder="请输入年龄" />
+        <TableColumn Sortable="true" Filterable="true" Searchable="true" @bind-Field="@context.Gender" PlaceHolder="请输入性别" />
+        <TableColumn Sortable="true" Filterable="true" Searchable="true" @bind-Field="@context.ClassName" IsVisibleWhenAdd="false" IsVisibleWhenEdit="false" />
+        <TableColumn @bind-Field="@context.ClassID" IsVisibleWhenAdd="false" IsVisibleWhenEdit="false" />
+        <TableColumn @bind-Field="@context.StudentID" IsVisibleWhenAdd="false" IsVisibleWhenEdit="false" />
+    </TableColumns>
+
+    <!--订单模板-->
+    <EditTemplate>
+        <StudentEditor @bind-Value="context" />
+    </EditTemplate>
+
+    <SearchTemplate>
+        <GroupBox Title="搜索条件">
+            <div class="row g-3 form-inline">
+                <div class="col-12 col-sm-6">
+                    <BootstrapInput @bind-Value="@context.ClassName" PlaceHolder="请输入班级名称" maxlength="50" ShowLabel="true" DisplayText="姓名" />
+                </div>
+            </div>
+        </GroupBox>
+    </SearchTemplate>
+</Table>
 
 @code {
+    /// <summary>
+    /// 数据查询
+    /// </summary>
+    /// <param name="options">options</param>
+    /// <returns></returns>
+    private async Task<QueryData<StudentViewModel>> OnQueryAsync(QueryPageOptions options)
+    {
+        var getClass = new List<StudentViewModel>();
+        var getResults = await _httpClient.GetFromJsonAsync<ApiResponse<List<StudentViewModel>>>("api/Student/GetAllStudent").ConfigureAwait(false);
+        if (getResults.Success)
+        {
+            // 数据模糊过滤筛选
+            if (!string.IsNullOrWhiteSpace(options.SearchText))
+            {
+                getClass = getResults.Data.Where(x => x.ClassName.Contains(options.SearchText)).ToList();
+            }
+            else
+            {
+                getClass = getResults.Data.ToList();
+            }
+        }
 
+        // 内存分页
+        return await Task.FromResult(new QueryData<StudentViewModel>()
+            {
+                Items = getClass.Skip((options.PageIndex - 1) * options.PageItems).Take(options.PageItems).ToList(),
+                TotalCount = getClass.Count()
+            });
+    }
+
+    /// <summary>
+    /// 模拟数据增加和修改操作
+    /// </summary>
+    /// <param name="studentInfo">studentInfo</param>
+    /// <param name="changedType">changedType</param>
+    /// <returns></returns>
+    public async Task<bool> OnSaveAsync(StudentViewModel studentInfo, ItemChangedType changedType)
+    {
+        if (changedType.ToString() == "Update")
+        {
+            var addResult = await _httpClient.PutAsJsonAsync($"api/Student/UpdateStudent/{studentInfo.ClassID}", studentInfo).ConfigureAwait(false);
+            if (UtilityBusiness.CheckResponse(addResult))
+            {
+                return await Task.FromResult(true);
+            }
+            else
+            {
+                return await Task.FromResult(false);
+            }
+        }
+        else if (changedType.ToString() == "Add")
+        {
+            var addResult = await _httpClient.PostAsJsonAsync("api/Student/CreateStudent", studentInfo).ConfigureAwait(false);
+            if (UtilityBusiness.CheckResponse(addResult))
+            {
+                return await Task.FromResult(true);
+            }
+            else
+            {
+                return await Task.FromResult(false);
+            }
+        }
+
+        return await Task.FromResult(true);
+    }
+
+    /// <summary>
+    /// 数据删除
+    /// </summary>
+    /// <param name="items">items</param>
+    /// <returns></returns>
+    private async Task<bool> OnDeleteAsync(IEnumerable<StudentViewModel> items)
+    {
+        var deleteSuccessNum = 0;
+        var StudentViewModelList = items.ToList();
+        foreach (var item in StudentViewModelList)
+        {
+            var delResult = await _httpClient.DeleteAsync($"api/Student/DeleteStudent/{item.ClassID}").ConfigureAwait(false);
+            if (UtilityBusiness.CheckResponse(delResult))
+            {
+                deleteSuccessNum++;
+            }
+        }
+
+        if (deleteSuccessNum > 0)
+        {
+            return await Task.FromResult(true);
+        }
+        else
+        {
+            return await Task.FromResult(false);
+        }
+
+    }
 }

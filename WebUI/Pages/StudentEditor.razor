@@ -1,0 +1,17 @@
+﻿@using Entity
+@inject HttpClient _httpClient;
+
+<div class="row g-3 form-inline">
+    <div class="col-12">
+        <Select @bind-Value="@Value.ClassName" Items="Items" />
+    </div>
+    <div class="col-12">
+        <BootstrapInput @bind-Value="@Value.Name" placeholder="请输入学生名称" maxlength="50" />
+    </div>
+    <div class="col-12">
+        <BootstrapInput @bind-Value="@Value.Gender" placeholder="请输入性别" maxlength="50" />
+    </div>
+    <div class="col-12">
+        <BootstrapInput @bind-Value="@Value.Gender" placeholder="请输入年龄" maxlength="50" />
+    </div>
+</div>

@@ -1,4 +1,5 @@
 using Entity;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Converters;
 using System.Reflection;
@@ -15,6 +16,9 @@ namespace WebApi
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
+
+            // Ìí¼Ó AutoMapper µÄÅäÖÃ
+            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             builder.Services.AddControllers().AddNewtonsoftJson(options =>
             {

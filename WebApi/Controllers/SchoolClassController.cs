@@ -32,7 +32,9 @@ namespace WebApi.Controllers
         {
             try
             {
-                var querySchoolClass = await _schoolClassHelper.QuerySingleAsync(c => c.ClassName == schoolClass.ClassName).ConfigureAwait(false);
+                var querySchoolClass = await _schoolClassHelper
+                    .QuerySingleAsync(c => c.ClassName == schoolClass.ClassName)
+                    .ConfigureAwait(false);
                 if (querySchoolClass != null)
                 {
                     return new ApiResponse<int>
@@ -46,28 +48,16 @@ namespace WebApi.Controllers
                 int insertNumbers = await _schoolClassHelper.InsertAsync(schoolClass);
                 if (insertNumbers > 0)
                 {
-                    return new ApiResponse<int>
-                    {
-                        Success = true,
-                        Message = "创建班级成功"
-                    };
+                    return new ApiResponse<int> { Success = true, Message = "创建班级成功" };
                 }
                 else
                 {
-                    return new ApiResponse<int>
-                    {
-                        Success = false,
-                        Message = "创建班级失败"
-                    };
+                    return new ApiResponse<int> { Success = false, Message = "创建班级失败" };
                 }
             }
             catch (Exception ex)
             {
-                return new ApiResponse<int>
-                {
-                    Success = false,
-                    Message = ex.Message
-                };
+                return new ApiResponse<int> { Success = false, Message = ex.Message };
             }
         }
 
@@ -75,24 +65,16 @@ namespace WebApi.Controllers
         /// 获取所有班级信息
         /// </summary>
         [HttpGet]
-        public async Task<ApiResponse<List<SchoolClass>>> GetClass()
+        public async Task<ApiResponse<List<SchoolClass>>> GetAllClass()
         {
             try
             {
                 var classes = await _schoolClassHelper.QueryAllAsync().ConfigureAwait(false);
-                return new ApiResponse<List<SchoolClass>>
-                {
-                    Success = true,
-                    Data = classes
-                };
+                return new ApiResponse<List<SchoolClass>> { Success = true, Data = classes };
             }
             catch (Exception ex)
             {
-                return new ApiResponse<List<SchoolClass>>
-                {
-                    Success = false,
-                    Message = ex.Message
-                };
+                return new ApiResponse<List<SchoolClass>> { Success = false, Message = ex.Message };
             }
         }
 
@@ -106,31 +88,21 @@ namespace WebApi.Controllers
         {
             try
             {
-                var schoolClass = await _schoolClassHelper.QuerySingleAsync(c => c.ClassID == classId).ConfigureAwait(false);
+                var schoolClass = await _schoolClassHelper
+                    .QuerySingleAsync(c => c.ClassID == classId)
+                    .ConfigureAwait(false);
                 if (schoolClass != null)
                 {
-                    return new ApiResponse<SchoolClass>
-                    {
-                        Success = true,
-                        Data = schoolClass
-                    };
+                    return new ApiResponse<SchoolClass> { Success = true, Data = schoolClass };
                 }
                 else
                 {
-                    return new ApiResponse<SchoolClass>
-                    {
-                        Success = false,
-                        Message = "班级不存在"
-                    };
+                    return new ApiResponse<SchoolClass> { Success = false, Message = "班级不存在" };
                 }
             }
             catch (Exception ex)
             {
-                return new ApiResponse<SchoolClass>
-                {
-                    Success = false,
-                    Message = ex.Message
-                };
+                return new ApiResponse<SchoolClass> { Success = false, Message = ex.Message };
             }
         }
 
@@ -141,49 +113,51 @@ namespace WebApi.Controllers
         /// <param name="updatedClass">更新的班级信息</param>
         /// <returns></returns>
         [HttpPut("{classId}")]
-        public async Task<ApiResponse<int>> UpdateClass(int classId, [FromBody] SchoolClass updatedClass)
+        public async Task<ApiResponse<int>> UpdateClass(
+            int classId,
+            [FromBody] SchoolClass updatedClass
+        )
         {
             try
             {
-                var existingClass = await _schoolClassHelper.QuerySingleAsync(c => c.ClassID == classId).ConfigureAwait(false);
-
-                if (existingClass != null)
-                {
-                    existingClass.ClassName = updatedClass.ClassName;
-                    var updateResult = await _schoolClassHelper.UpdateAsync(existingClass).ConfigureAwait(false);
-                    if (updateResult > 0)
-                    {
-                        return new ApiResponse<int>
-                        {
-                            Success = true,
-                            Message = "班级信息更新成功"
-                        };
-                    }
-                    else
-                    {
-                        return new ApiResponse<int>
-                        {
-                            Success = false,
-                            Message = "班级信息更新失败"
-                        };
-                    }
-                }
-                else
+                var querySchoolClass = await _schoolClassHelper
+                    .QuerySingleAsync(c => c.ClassName == updatedClass.ClassName)
+                    .ConfigureAwait(false);
+                if (querySchoolClass != null)
                 {
                     return new ApiResponse<int>
                     {
                         Success = false,
-                        Message = "班级不存在"
+                        Message = $"更新班级信息失败，班级{updatedClass.ClassName}已存在"
                     };
+                }
+
+                var existingClass = await _schoolClassHelper
+                    .QuerySingleAsync(c => c.ClassID == classId)
+                    .ConfigureAwait(false);
+                if (existingClass != null)
+                {
+                    existingClass.ClassName = updatedClass.ClassName;
+                    var updateResult = await _schoolClassHelper
+                        .UpdateAsync(existingClass)
+                        .ConfigureAwait(false);
+                    if (updateResult > 0)
+                    {
+                        return new ApiResponse<int> { Success = true, Message = "班级信息更新成功" };
+                    }
+                    else
+                    {
+                        return new ApiResponse<int> { Success = false, Message = "班级信息更新失败" };
+                    }
+                }
+                else
+                {
+                    return new ApiResponse<int> { Success = false, Message = "班级不存在" };
                 }
             }
             catch (Exception ex)
             {
-                return new ApiResponse<int>
-                {
-                    Success = false,
-                    Message = ex.Message
-                };
+                return new ApiResponse<int> { Success = false, Message = ex.Message };
             }
         }
 
@@ -197,32 +171,22 @@ namespace WebApi.Controllers
         {
             try
             {
-                var deleteResult = await _schoolClassHelper.DeleteAsync(classId).ConfigureAwait(false);
+                var deleteResult = await _schoolClassHelper
+                    .DeleteAsync(classId)
+                    .ConfigureAwait(false);
 
                 if (deleteResult > 0)
                 {
-                    return new ApiResponse<int>
-                    {
-                        Success = true,
-                        Message = "班级删除成功"
-                    };
+                    return new ApiResponse<int> { Success = true, Message = "班级删除成功" };
                 }
                 else
                 {
-                    return new ApiResponse<int>
-                    {
-                        Success = true,
-                        Message = "班级删除失败"
-                    };
+                    return new ApiResponse<int> { Success = true, Message = "班级删除失败" };
                 }
             }
             catch (Exception ex)
             {
-                return new ApiResponse<int>
-                {
-                    Success = false,
-                    Message = ex.Message
-                };
+                return new ApiResponse<int> { Success = false, Message = ex.Message };
             }
         }
     }

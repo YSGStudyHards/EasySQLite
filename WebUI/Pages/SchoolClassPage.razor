@@ -19,7 +19,7 @@
     <TableColumns>
         <TableColumn Sortable="true" Filterable="true" Searchable="true" @bind-Field="@context.ClassName" PlaceHolder="请输入班级名称" />
         <TableColumn @bind-Field="@context.ClassID" IsVisibleWhenAdd="false" IsVisibleWhenEdit="false" />
-        <TableColumn @bind-Field="@context.CreateTime" IsVisibleWhenAdd="false" IsVisibleWhenEdit="false" />
+        <TableColumn @bind-Field="@context.CreateTime" FormatString="yyyy-MM-dd HH:mm:ss" />
     </TableColumns>
 
     <SearchTemplate>
@@ -42,7 +42,7 @@
     private async Task<QueryData<SchoolClass>> OnQueryAsync(QueryPageOptions options)
     {
         var getClass = new List<SchoolClass>();
-        var getResults = await _httpClient.GetFromJsonAsync<ApiResponse<List<SchoolClass>>>("api/SchoolClass/GetClass").ConfigureAwait(false);
+        var getResults = await _httpClient.GetFromJsonAsync<ApiResponse<List<SchoolClass>>>("api/SchoolClass/GetAllClass").ConfigureAwait(false);
         if (getResults.Success)
         {
             // 数据模糊过滤筛选
@@ -56,7 +56,7 @@
             }
         }
 
-        //假分页
+        // 内存分页
         return await Task.FromResult(new QueryData<SchoolClass>()
             {
                 Items = getClass.Skip((options.PageIndex - 1) * options.PageItems).Take(options.PageItems).ToList(),
