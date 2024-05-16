@@ -72,9 +72,9 @@ namespace WebApi.Controllers
             try
             {
                 var students = await _studentHelper.QueryAllAsync().ConfigureAwait(false);
-                var studentsDtoList = await GetStudentClassInfo(students).ConfigureAwait(false);
+                var studentsListDto = await GetStudentClassInfo(students).ConfigureAwait(false);
                 response.Success = true;
-                response.Data = studentsDtoList;
+                response.Data = studentsListDto ?? new List<StudentViewModel>();
             }
             catch (Exception ex)
             {
@@ -86,14 +86,14 @@ namespace WebApi.Controllers
 
         private async Task<List<StudentViewModel>?> GetStudentClassInfo(List<Student> students)
         {
-            var studentsDtoList = _mapper.Map<List<StudentViewModel>>(students);
-            if (studentsDtoList?.Count > 0)
+            var studentsListDto = _mapper.Map<List<StudentViewModel>>(students);
+            if (studentsListDto?.Count > 0)
             {
-                var classIDs = studentsDtoList.Select(x => x.ClassID).Distinct().ToList();
+                var classIDs = studentsListDto.Select(x => x.ClassID).Distinct().ToList();
                 var querySchoolClassList = await _schoolClassHelper.QueryAsync(x => classIDs.Contains(x.ClassID)).ConfigureAwait(false);
                 if (querySchoolClassList?.Count > 0)
                 {
-                    foreach (var studentItem in studentsDtoList)
+                    foreach (var studentItem in studentsListDto)
                     {
                         var getClassInfo = querySchoolClassList.FirstOrDefault(x => x.ClassID == studentItem.ClassID);
                         if (getClassInfo != null)
@@ -104,7 +104,7 @@ namespace WebApi.Controllers
                 }
             }
 
-            return studentsDtoList;
+            return studentsListDto;
         }
 
         /// <summary>

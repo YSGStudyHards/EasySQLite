@@ -1,7 +1,5 @@
 using Entity;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.OpenApi.Models;
-using Newtonsoft.Json.Converters;
 using System.Reflection;
 using Utility;
 
@@ -14,10 +12,12 @@ namespace WebApi
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+            //Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
 
-            // 添加 AutoMapper 的配置
+            //添加 AutoMapper 的配置
+            //使用AddAutoMapper()方法可以将AutoMapper所需的服务添加到该集合中，以便在应用程序的其他部分中使用。
+            //该方法需要传入一个Assembly数组，以告诉AutoMapper要扫描哪些程序集来查找映射配置(在当前作用域的所有程序集里面扫描AutoMapper的配置文件)。
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             builder.Services.AddControllers().AddNewtonsoftJson(options =>
