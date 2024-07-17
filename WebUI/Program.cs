@@ -2,6 +2,7 @@ using BootstrapBlazor.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using WebUI.Services;
 
 namespace WebUI
 {
@@ -15,6 +16,8 @@ namespace WebUI
 
             //将 BootstrapBlazor 库添加到 ASP.NET Core 项目中的依赖关系注入容器中
             builder.Services.AddBootstrapBlazor();
+
+            builder.Services.AddTransient<DataLoader>();
 
             builder.Services.AddScoped(sp => new HttpClient(new HttpClientHandler { AllowAutoRedirect = false })
             {

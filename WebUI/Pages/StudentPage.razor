@@ -2,7 +2,9 @@
 @using Entity
 @using Entity.ViewModel
 @using WebUI.Common
+@using WebUI.Services
 @inject HttpClient _httpClient;
+@inject DataLoader _dataLoader;
 
 <Table TItem="StudentViewModel"
        AutoGenerateColumns="true"
@@ -27,7 +29,7 @@
         <TableColumn @bind-Field="@context.StudentID" IsVisibleWhenAdd="false" IsVisibleWhenEdit="false" />
     </TableColumns>
 
-    <!--订单模板-->
+    <!--通过设置 EditTemplate 自定义编辑弹窗，如果属性需要联动时必须像本例这样封装成一个独立的组件再放置到模板中-->
     <EditTemplate>
         <StudentEditor @bind-Value="context" />
     </EditTemplate>
@@ -44,6 +46,7 @@
 </Table>
 
 @code {
+
     /// <summary>
     /// 数据查询
     /// </summary>
@@ -51,6 +54,8 @@
     /// <returns></returns>
     private async Task<QueryData<StudentViewModel>> OnQueryAsync(QueryPageOptions options)
     {
+        await _dataLoader.LoadSchoolClassDataAsync().ConfigureAwait(false);
+
         var getClass = new List<StudentViewModel>();
         var getResults = await _httpClient.GetFromJsonAsync<ApiResponse<List<StudentViewModel>>>("api/Student/GetAllStudent").ConfigureAwait(false);
         if (getResults.Success)
@@ -136,6 +141,5 @@
         {
             return await Task.FromResult(false);
         }
-
     }
 }

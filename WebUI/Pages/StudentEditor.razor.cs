@@ -1,17 +1,22 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Xml.Linq;
 using BootstrapBlazor.Components;
 using Entity;
 using Entity.ViewModel;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Caching.Memory;
+using Newtonsoft.Json;
+using WebUI.Services;
 
 namespace WebUI.Pages
 {
     public partial class StudentEditor
     {
         [Parameter]
-        public StudentViewModel? Value { get; set; }
+        public StudentViewModel Value { get; set; }
 
         [Parameter]
         public EventCallback<StudentViewModel> ValueChanged { get; set; }
@@ -23,22 +28,27 @@ namespace WebUI.Pages
         {
             base.OnInitialized();
 
-            var getResults = await _httpClient
-                .GetFromJsonAsync<ApiResponse<List<SchoolClass>>>("api/SchoolClass/GetAllClass")
-                .ConfigureAwait(false);
-
-            Items = new List<SelectedItem>();
-            if (getResults.Success)
+            var getSchoolClass = new List<SchoolClass>();
+            if (_memoryCache.TryGetValue("SchoolClassData", out string data))
             {
-                foreach (var item in getResults.Data)
-                {
-                    Items.Add(
-                        new SelectedItem { Value = item.ClassID.ToString(), Text = item.ClassName }
-                    );
-                }
+                getSchoolClass = JsonConvert.DeserializeObject<List<SchoolClass>>(data);
+            }
+            else
+            {
+                getSchoolClass = await _dataLoader.LoadSchoolClassDataAsync().ConfigureAwait(false);
             }
 
-            Value.ClassName = Items.First().Value;
+            Items = [new SelectedItem { Value = "0", Text = "...请选择班级..." }];
+
+            foreach (var item in getSchoolClass)
+            {
+                Items.Add(new SelectedItem { Value = item.ClassID.ToString(), Text = item.ClassName });
+            }
+
+            if (string.IsNullOrEmpty(Value.ClassName))
+            {
+                Value.ClassName = Items.First().Text;
+            }
         }
     }
 }

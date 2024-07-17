@@ -1,9 +1,13 @@
 ﻿@using Entity
+@using Microsoft.Extensions.Caching.Memory
+@using WebUI.Services
 @inject HttpClient _httpClient;
+@inject DataLoader _dataLoader;
+@inject IMemoryCache _memoryCache;
 
 <div class="row g-3 form-inline">
     <div class="col-12">
-        <Select @bind-Value="@Value.ClassName" Items="Items" />
+        <Select IsVirtualize="true" @bind-Value="@Value.ClassName" Items="Items" />
     </div>
     <div class="col-12">
         <BootstrapInput @bind-Value="@Value.Name" placeholder="请输入学生名称" maxlength="50" />
