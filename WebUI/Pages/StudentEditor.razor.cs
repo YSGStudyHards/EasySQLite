@@ -24,11 +24,13 @@ namespace WebUI.Pages
         [NotNull]
         private List<SelectedItem>? Items { get; set; }
 
+        [NotNull]
+        private List<SelectedItem>? GenderItems { get; set; }
+
         protected override async void OnInitialized()
         {
             base.OnInitialized();
-
-            var getSchoolClass = new List<SchoolClass>();
+            List<SchoolClass>? getSchoolClass;
             if (_memoryCache.TryGetValue("SchoolClassData", out string data))
             {
                 getSchoolClass = JsonConvert.DeserializeObject<List<SchoolClass>>(data);
@@ -38,16 +40,22 @@ namespace WebUI.Pages
                 getSchoolClass = await _dataLoader.LoadSchoolClassDataAsync().ConfigureAwait(false);
             }
 
-            Items = [new SelectedItem { Value = "0", Text = "...请选择班级..." }];
-
+            Items = [];
             foreach (var item in getSchoolClass)
             {
-                Items.Add(new SelectedItem { Value = item.ClassID.ToString(), Text = item.ClassName });
+                Items.Add(new SelectedItem { Value = item.ClassName, Text = item.ClassName });
             }
 
-            if (string.IsNullOrEmpty(Value.ClassName))
+            if (string.IsNullOrWhiteSpace(Value.ClassName))
             {
                 Value.ClassName = Items.First().Text;
+            }
+
+            GenderItems = [new SelectedItem { Value = "男", Text = "男" }, new SelectedItem { Value = "女", Text = "女" }];
+
+            if (string.IsNullOrWhiteSpace(Value.Gender))
+            {
+                Value.Gender = GenderItems.First().Text;
             }
         }
     }

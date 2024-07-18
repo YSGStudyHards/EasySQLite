@@ -1,7 +1,9 @@
 ﻿@page "/SchoolClass"
 @using Entity
 @using WebUI.Common
+@using WebUI.Services
 @inject HttpClient _httpClient;
+@inject DataLoader _dataLoader;
 
 <Table TItem="SchoolClass"
        AutoGenerateColumns="true"
@@ -17,7 +19,7 @@
        ShowSearchText="true">
 
     <TableColumns>
-        <TableColumn Sortable="true" Filterable="true" Searchable="true" @bind-Field="@context.ClassName" PlaceHolder="请输入班级名称" />
+        <TableColumn Sortable="true" Filterable="true" Searchable="true" @bind-Field="@context.ClassName" PlaceHolder="请输入班级名称" required />
         <TableColumn @bind-Field="@context.ClassID" IsVisibleWhenAdd="false" IsVisibleWhenEdit="false" />
         <TableColumn @bind-Field="@context.CreateTime" FormatString="yyyy-MM-dd HH:mm:ss" />
     </TableColumns>
@@ -72,11 +74,18 @@
     /// <returns></returns>
     public async Task<bool> OnSaveAsync(SchoolClass studentInfo, ItemChangedType changedType)
     {
+        if (string.IsNullOrWhiteSpace(studentInfo.ClassName))
+        {
+            return await Task.FromResult(false);
+        }
+
         if (changedType.ToString() == "Update")
         {
             var addResult = await _httpClient.PutAsJsonAsync($"api/SchoolClass/UpdateClass/{studentInfo.ClassID}", studentInfo).ConfigureAwait(false);
             if (UtilityBusiness.CheckResponse(addResult))
             {
+                //加载班级信息
+                await _dataLoader.LoadSchoolClassDataAsync().ConfigureAwait(false);
                 return await Task.FromResult(true);
             }
             else
@@ -89,6 +98,8 @@
             var addResult = await _httpClient.PostAsJsonAsync("api/SchoolClass/CreateClass", studentInfo).ConfigureAwait(false);
             if (UtilityBusiness.CheckResponse(addResult))
             {
+                //加载班级信息
+                await _dataLoader.LoadSchoolClassDataAsync().ConfigureAwait(false);
                 return await Task.FromResult(true);
             }
             else
@@ -126,6 +137,5 @@
         {
             return await Task.FromResult(false);
         }
-
     }
 }

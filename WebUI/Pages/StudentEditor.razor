@@ -7,15 +7,18 @@
 
 <div class="row g-3 form-inline">
     <div class="col-12">
-        <Select IsVirtualize="true" @bind-Value="@Value.ClassName" Items="Items" />
+        <BootstrapInput @bind-Value="@Value.ClassID" IsDisabled maxlength="50" IsVisibleWhenEdit="false"/>
     </div>
     <div class="col-12">
-        <BootstrapInput @bind-Value="@Value.Name" placeholder="请输入学生名称" maxlength="50" />
+        <Select @bind-Value="@Value.ClassName" Items="Items" />
     </div>
     <div class="col-12">
-        <BootstrapInput @bind-Value="@Value.Gender" placeholder="请输入性别" maxlength="50" />
+        <BootstrapInput @bind-Value="@Value.Name" placeholder="请输入学生名称" maxlength="50" required />
     </div>
     <div class="col-12">
-        <BootstrapInput @bind-Value="@Value.Gender" placeholder="请输入年龄" maxlength="50" />
+        <Select @bind-Value="@Value.Gender" Items="GenderItems" required />
+    </div>
+    <div class="col-12">
+        <BootstrapInput @bind-Value="@Value.Age" placeholder="请输入年龄" maxlength="50" />
     </div>
 </div>

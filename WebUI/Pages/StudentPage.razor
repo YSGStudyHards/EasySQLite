@@ -54,8 +54,6 @@
     /// <returns></returns>
     private async Task<QueryData<StudentViewModel>> OnQueryAsync(QueryPageOptions options)
     {
-        await _dataLoader.LoadSchoolClassDataAsync().ConfigureAwait(false);
-
         var getClass = new List<StudentViewModel>();
         var getResults = await _httpClient.GetFromJsonAsync<ApiResponse<List<StudentViewModel>>>("api/Student/GetAllStudent").ConfigureAwait(false);
         if (getResults.Success)
@@ -70,6 +68,9 @@
                 getClass = getResults.Data.ToList();
             }
         }
+
+        //加载班级信息
+        await _dataLoader.LoadSchoolClassDataAsync().ConfigureAwait(false);
 
         // 内存分页
         return await Task.FromResult(new QueryData<StudentViewModel>()
