@@ -17,7 +17,7 @@ namespace WebUI
             //将 BootstrapBlazor 库添加到 ASP.NET Core 项目中的依赖关系注入容器中
             builder.Services.AddBootstrapBlazor();
 
-            builder.Services.AddTransient<DataLoader>();
+            builder.Services.AddTransient<DataLoaderService>();
 
             builder.Services.AddScoped(sp => new HttpClient(new HttpClientHandler { AllowAutoRedirect = false })
             {
