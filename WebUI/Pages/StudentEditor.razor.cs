@@ -41,14 +41,15 @@ namespace WebUI.Pages
             }
 
             Items = [];
-            foreach (var item in getSchoolClass)
+            foreach (var item in getSchoolClass.OrderBy(x => x.ClassID).ToList())
             {
-                Items.Add(new SelectedItem { Value = item.ClassName, Text = item.ClassName });
+                Items.Add(new SelectedItem { Value = item.ClassID.ToString(), Text = item.ClassName });
             }
 
             if (string.IsNullOrWhiteSpace(Value.ClassName))
             {
                 Value.ClassName = Items.First().Text;
+                Value.ClassID = Convert.ToInt32(Items.First().Value);
             }
 
             GenderItems = [new SelectedItem { Value = "男", Text = "男" }, new SelectedItem { Value = "女", Text = "女" }];
@@ -57,6 +58,17 @@ namespace WebUI.Pages
             {
                 Value.Gender = GenderItems.First().Text;
             }
+        }
+
+        /// <summary>
+        /// 下拉框选项改变时触发此事件
+        /// </summary>
+        /// <param name="item">item</param>
+        /// <returns></returns>
+        async Task OnSelectedItemChanged(SelectedItem item)
+        {
+            await Task.Delay(1);
+            Value.ClassID = Convert.ToInt32(item.Value);
         }
     }
 }

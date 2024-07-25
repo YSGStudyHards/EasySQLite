@@ -43,6 +43,7 @@
     /// <returns></returns>
     private async Task<QueryData<SchoolClass>> OnQueryAsync(QueryPageOptions options)
     {
+        var searchModel = options.SearchModel as SchoolClass;
         var getClass = new List<SchoolClass>();
         var getResults = await _httpClient.GetFromJsonAsync<ApiResponse<List<SchoolClass>>>("api/SchoolClass/GetAllClass").ConfigureAwait(false);
         if (getResults.Success)
@@ -51,6 +52,10 @@
             if (!string.IsNullOrWhiteSpace(options.SearchText))
             {
                 getClass = getResults.Data.Where(x => x.ClassName.Contains(options.SearchText)).ToList();
+            }
+            else if (searchModel != null && !string.IsNullOrWhiteSpace(searchModel.ClassName))
+            {
+                getClass = getResults.Data.Where(x => x.ClassName.Contains(searchModel.ClassName)).ToList();
             }
             else
             {

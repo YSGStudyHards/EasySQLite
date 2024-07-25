@@ -1,6 +1,8 @@
 ﻿@page "/Student"
 @using Entity
 @using Entity.ViewModel
+@using System.Reflection
+@using Utility
 @using WebUI.Common
 @using WebUI.Services
 @inject HttpClient _httpClient;
@@ -19,16 +21,6 @@
        IsPagination="true"
        ShowSearchText="true">
 
-    <TableColumns>
-        <TableColumn @bind-Field="@context.ClassName" Sortable="true" Filterable="true" Searchable="true" TextWrap="true" ShowSearchWhenSelect></TableColumn>
-        <TableColumn Sortable="true" Filterable="true" Searchable="true" @bind-Field="@context.Name" PlaceHolder="请输入学生名称" />
-        <TableColumn Sortable="true" Filterable="true" Searchable="true" @bind-Field="@context.Age" PlaceHolder="请输入年龄" />
-        <TableColumn Sortable="true" Filterable="true" Searchable="true" @bind-Field="@context.Gender" PlaceHolder="请输入性别" />
-        <TableColumn Sortable="true" Filterable="true" Searchable="true" @bind-Field="@context.ClassName" IsVisibleWhenAdd="false" IsVisibleWhenEdit="false" />
-        <TableColumn @bind-Field="@context.ClassID" IsVisibleWhenAdd="false" IsVisibleWhenEdit="false" />
-        <TableColumn @bind-Field="@context.StudentID" IsVisibleWhenAdd="false" IsVisibleWhenEdit="false" />
-    </TableColumns>
-
     <!--通过设置 EditTemplate 自定义编辑弹窗，如果属性需要联动时必须像本例这样封装成一个独立的组件再放置到模板中-->
     <EditTemplate>
         <StudentEditor @bind-Value="context" />
@@ -38,7 +30,7 @@
         <GroupBox Title="搜索条件">
             <div class="row g-3 form-inline">
                 <div class="col-12 col-sm-6">
-                    <BootstrapInput @bind-Value="@context.ClassName" PlaceHolder="请输入班级名称" maxlength="50" ShowLabel="true" DisplayText="姓名" />
+                    <BootstrapInput @bind-Value="@context.Name" PlaceHolder="请输入学生姓名" maxlength="50" ShowLabel="true" DisplayText="姓名" />
                 </div>
             </div>
         </GroupBox>
@@ -54,18 +46,23 @@
     /// <returns></returns>
     private async Task<QueryData<StudentViewModel>> OnQueryAsync(QueryPageOptions options)
     {
-        var getClass = new List<StudentViewModel>();
+        var searchModel = options.SearchModel as StudentViewModel;
+        var getStudentData = new List<StudentViewModel>();
         var getResults = await _httpClient.GetFromJsonAsync<ApiResponse<List<StudentViewModel>>>("api/Student/GetAllStudent").ConfigureAwait(false);
         if (getResults.Success)
         {
             // 数据模糊过滤筛选
             if (!string.IsNullOrWhiteSpace(options.SearchText))
             {
-                getClass = getResults.Data.Where(x => x.ClassName.Contains(options.SearchText)).ToList();
+                getStudentData = getResults.Data.Where(x => x.Name.Contains(options.SearchText)).ToList();
+            }
+            else if (searchModel != null && !string.IsNullOrWhiteSpace(searchModel.Name))
+            {
+                getStudentData = getResults.Data.Where(x => x.Name.Contains(searchModel.Name)).ToList();
             }
             else
             {
-                getClass = getResults.Data.ToList();
+                getStudentData = getResults.Data.ToList();
             }
         }
 
@@ -75,8 +72,8 @@
         // 内存分页
         return await Task.FromResult(new QueryData<StudentViewModel>()
             {
-                Items = getClass.Skip((options.PageIndex - 1) * options.PageItems).Take(options.PageItems).ToList(),
-                TotalCount = getClass.Count()
+                Items = getStudentData.Skip((options.PageIndex - 1) * options.PageItems).Take(options.PageItems).ToList(),
+                TotalCount = getStudentData.Count()
             });
     }
 
@@ -90,7 +87,7 @@
     {
         if (changedType.ToString() == "Update")
         {
-            var addResult = await _httpClient.PutAsJsonAsync($"api/Student/UpdateStudent/{studentInfo.ClassID}", studentInfo).ConfigureAwait(false);
+            var addResult = await _httpClient.PutAsJsonAsync($"api/Student/UpdateStudent/{studentInfo.StudentID}", studentInfo).ConfigureAwait(false);
             if (UtilityBusiness.CheckResponse(addResult))
             {
                 return await Task.FromResult(true);
@@ -127,7 +124,7 @@
         var StudentViewModelList = items.ToList();
         foreach (var item in StudentViewModelList)
         {
-            var delResult = await _httpClient.DeleteAsync($"api/Student/DeleteStudent/{item.ClassID}").ConfigureAwait(false);
+            var delResult = await _httpClient.DeleteAsync($"api/Student/DeleteStudent/{item.StudentID}").ConfigureAwait(false);
             if (UtilityBusiness.CheckResponse(delResult))
             {
                 deleteSuccessNum++;
