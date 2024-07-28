@@ -30,9 +30,9 @@ SQLite是一个轻量级的嵌入式关系型数据库，它以一个小型的C�
 
 咱们的.NET 8操作SQLite入门到实战教程主要使用技术栈为如下所示：
 
-- 后端：ASP.NET Core 8.0 Web API、SQLite-net ORM、AutoMapper、Swagger。
-- 前端：Blazor WebAssembly、BootstrapBlazor。
 - 数据库：SQLite。
+- 前端：Blazor WebAssembly、BootstrapBlazor。
+- 后端：ASP.NET Core 8.0 Web API、SQLite-net ORM、AutoMapper、Swagger。
 - 开发工具：Visual Studio 2022需要升级为v17.8或者更高版本才支持.NET 8（长期支持 LTS）。
 
 ## 前后端框架预览
