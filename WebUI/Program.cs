@@ -2,6 +2,7 @@ using BootstrapBlazor.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 using WebUI.Services;
 
 namespace WebUI
@@ -19,9 +20,14 @@ namespace WebUI
 
             builder.Services.AddTransient<DataLoaderService>();
 
+            // 获取环境变量
+            var environment = builder.HostEnvironment.Environment;
+            var baseAddress = environment == "Development" ? "https://localhost:7240/" : "http://localhost:8899/";
+
+            // 注册 HttpClient 并设置 BaseAddress
             builder.Services.AddScoped(sp => new HttpClient(new HttpClientHandler { AllowAutoRedirect = false })
             {
-                BaseAddress = new Uri("https://localhost:7240/")
+                BaseAddress = new Uri(baseAddress)
             });
 
             await builder.Build().RunAsync();

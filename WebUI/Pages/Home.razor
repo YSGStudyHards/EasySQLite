@@ -1,4 +1,7 @@
 ﻿@page "/"
+@using Microsoft.AspNetCore.Components.WebAssembly.Hosting
+@inject IWebAssemblyHostEnvironment env
+
 <PageTitle>Home</PageTitle>
 
 <div class="tab-scroll-body">
@@ -6,6 +9,9 @@
         <BodyTemplate>
             <Alert class="mb-0">
                 SQLite是一个轻量级的嵌入式关系型数据库，它以一个小型的C语言库的形式存在。它是一个自包含、无需服务器、零配置的数据库引擎。与传统的数据库系统不同，SQLite直接读写普通磁盘文件，不需要单独的数据库服务器。它支持标准的SQL查询语言，并提供了事务支持和ACID属性（原子性、一致性、隔离性和持久性）。
+                <br />
+                <br />
+                当前环境：@env.Environment
             </Alert>
         </BodyTemplate>
     </Card>
