@@ -39,8 +39,7 @@ SQLite是一个轻量级的嵌入式关系型数据库，它以一个小型的C�
 
 ![](https://files.mdnice.com/user/16275/477ac075-b405-45c1-bd83-d740fe4384b9.png)
 
-## 文章详细教程
-
+## 开发详细教程
 - [第一天 SQLite 简介](https://mp.weixin.qq.com/s/wCKjqDv2hpvsu-01meSMNA)
 - [第二天 在 Windows 上配置 SQLite环境](https://mp.weixin.qq.com/s/fbsLOfE1gQLG3OPpz3UZMA)
 - [第三天SQLite快速入门](https://mp.weixin.qq.com/s/wgMDqIdaQsMfOuiLl07ggw)
@@ -50,4 +49,6 @@ SQLite是一个轻量级的嵌入式关系型数据库，它以一个小型的C�
 - [第七天BootstrapBlazor UI组件库引入（1）](https://mp.weixin.qq.com/s/UIeKSqym8ibLRvDwra8aww)
 - [第七天Blazor班级管理页面编写和接口对接（2）](https://mp.weixin.qq.com/s/lpXu5Hx_3F7nf970iBo-5A)
 - [第七天Blazor学生管理页面编写和接口对接（3）](https://mp.weixin.qq.com/s/9a6y8Lw1kGSjfddLQhQRoQ)
+
+## 发布部署详细教程
 
