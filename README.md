@@ -1,6 +1,6 @@
 # 教程简介
 
-七天.NET 8操作SQLite入门到实战详细教程。
+七天.NET 8操作SQLite入门到实战详细教程（选型、开发、发布、部署）！
 
 ## 什么是SQLite？
 
@@ -26,19 +26,6 @@ SQLite是一个轻量级的嵌入式关系型数据库，它以一个小型的C�
 - 跨平台：SQLite可以在多个操作系统上运行，包括Windows、Mac、Linux等。
 - 公共领域代码：SQLite的源代码是公共领域的，可以免费用于商业或私人用途。
 
-## 使用技术栈和开发环境
-
-咱们的.NET 8操作SQLite入门到实战教程主要使用技术栈为如下所示：
-
-- 数据库：SQLite。
-- 前端：Blazor WebAssembly、BootstrapBlazor。
-- 后端：ASP.NET Core 8.0 Web API、SQLite-net ORM、AutoMapper、Swagger。
-- 开发工具：Visual Studio 2022需要升级为v17.8或者更高版本才支持.NET 8（长期支持 LTS）。
-
-## 前后端框架预览
-
-![](https://files.mdnice.com/user/16275/477ac075-b405-45c1-bd83-d740fe4384b9.png)
-
 ## 开发详细教程
 - [第一天 SQLite 简介](https://mp.weixin.qq.com/s/wCKjqDv2hpvsu-01meSMNA)
 - [第二天 在 Windows 上配置 SQLite环境](https://mp.weixin.qq.com/s/fbsLOfE1gQLG3OPpz3UZMA)
@@ -51,4 +38,25 @@ SQLite是一个轻量级的嵌入式关系型数据库，它以一个小型的C�
 - [第七天Blazor学生管理页面编写和接口对接（3）](https://mp.weixin.qq.com/s/9a6y8Lw1kGSjfddLQhQRoQ)
 
 ## 发布部署详细教程
+- [Windows10 IIS Web服务器安装配置](https://mp.weixin.qq.com/s/oaqypmpHOTLA9_5sF6-W7Q)
+- [在IIS上部署ASP.NET Core Web API和Blazor Wasm](https://mp.weixin.qq.com/s/MfScgBu0QMRT3D5aIT5A3w)
+
+## 使用技术栈和开发环境
+
+咱们的.NET 8操作SQLite入门到实战教程主要使用技术栈为如下所示：
+- 数据库：SQLite。
+- 前端：Blazor WebAssembly、BootstrapBlazor。
+- 后端：ASP.NET Core 8.0 Web API、SQLite-net ORM、AutoMapper、Swagger。
+- 开发工具：Visual Studio 2022需要升级为v17.8或者更高版本才支持.NET 8（长期支持 LTS）。
+
+## 前后端框架预览
+
+![](https://files.mdnice.com/user/16275/477ac075-b405-45c1-bd83-d740fe4384b9.png)
+
+## 项目源码启动
+
+## 项目效果演示
+### 后端WebApi
+
+### 前端页面
 
