@@ -41,6 +41,10 @@ SQLite是一个轻量级的嵌入式关系型数据库，它以一个小型的C�
 - [Windows10 IIS Web服务器安装配置](https://mp.weixin.qq.com/s/oaqypmpHOTLA9_5sF6-W7Q)
 - [在IIS上部署ASP.NET Core Web API和Blazor Wasm](https://mp.weixin.qq.com/s/MfScgBu0QMRT3D5aIT5A3w)
 
+## 拓展文章教程
+- [全面的ASP.NET Core Blazor简介和快速入门](https://mp.weixin.qq.com/s/hcZBhbTab02HqWqryB_oEA)
+- [.NET中使用BootstrapBlazor组件库Table实操篇](https://mp.weixin.qq.com/s/qFHUC9UKg_2wY2jSthI9Kw)
+
 ## 使用技术栈和开发环境
 
 咱们的.NET 8操作SQLite入门到实战教程主要使用技术栈为如下所示：
