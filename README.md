@@ -1,3 +1,5 @@
+![](https://files.mdnice.com/user/16275/9b5c80c0-b82a-4a48-8220-3d97bafe1d47.png)
+
 # 教程简介
 
 EasySQLite是一个七天.NET 8操作SQLite入门到实战详细教程，主要是对学校班级，学生信息进行管理维护（包含选型、开发、发布、部署）！
