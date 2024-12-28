@@ -1,5 +1,7 @@
 using Entity;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using Scalar.AspNetCore;
 using System.Reflection;
 using Utility;
 
@@ -53,6 +55,21 @@ namespace WebApi
                 options.OrderActionsBy(o => o.RelativePath);
             });
 
+            // 添加OpenApi服务，这是Scalar所需的
+            builder.Services.AddOpenApi(options =>
+            {
+                options.AddDocumentTransformer((document, context, cancellationToken) =>
+                {
+                    document.Info = new()
+                    {
+                        Title = "EasySQLite API",
+                        Version = "V1",
+                        Description = ".NET 8操作SQLite入门到实战"
+                    };
+                    return Task.CompletedTask;
+                });
+            });
+
             var PolicyCorsName = "EasySQLitePolicy";
 
             builder.Services.AddCors(option =>
@@ -76,6 +93,9 @@ namespace WebApi
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
+
+                app.MapScalarApiReference();//映射Scalar的API参考文档路径
+                app.MapOpenApi();//映射OpenApi文档路径
             }
 
             app.UseHttpsRedirection();
