@@ -49,6 +49,7 @@ SQLite是一个轻量级的嵌入式关系型数据库，它以一个小型的C�
 - [10款值得推荐的Blazor UI组件库](https://mp.weixin.qq.com/s/HHqkwpXIi7p3K5eUnTcLTw)
 - [全面的ASP.NET Core Blazor简介和快速入门](https://mp.weixin.qq.com/s/hcZBhbTab02HqWqryB_oEA)
 - [.NET中使用BootstrapBlazor组件库Table实操篇](https://mp.weixin.qq.com/s/qFHUC9UKg_2wY2jSthI9Kw)
+- [ASP.NET Core Web中使用AutoMapper进行对象映射](https://mp.weixin.qq.com/s/i4Wn0ox22gIffB8UwoBZXQ)
 
 ## 使用技术栈和开发环境
 咱们的.NET 8操作SQLite入门到实战教程主要使用技术栈为如下所示：
