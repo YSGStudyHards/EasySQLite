@@ -1,5 +1,7 @@
 using Entity;
+using Entity.ViewModel;
 using Mapster;
+using MapsterMapper;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using Scalar.AspNetCore;
@@ -20,6 +22,9 @@ namespace WebApi
 
             // 注册 Mapster 服务
             builder.Services.AddMapster();
+
+            //注册 Mapster 映射规则
+            MapsterConfig.Register();
 
             ////添加 AutoMapper 的配置
             ////使用AddAutoMapper()方法可以将AutoMapper所需的服务添加到该集合中，以便在应用程序的其他部分中使用。
