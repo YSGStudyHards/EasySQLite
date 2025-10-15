@@ -38,6 +38,7 @@ SQLite是一个轻量级的嵌入式关系型数据库，它以一个小型的C�
 - [第七天BootstrapBlazor UI组件库引入（1）](https://mp.weixin.qq.com/s/UIeKSqym8ibLRvDwra8aww)
 - [第七天Blazor班级管理页面编写和接口对接（2）](https://mp.weixin.qq.com/s/lpXu5Hx_3F7nf970iBo-5A)
 - [第七天Blazor学生管理页面编写和接口对接（3）](https://mp.weixin.qq.com/s/9a6y8Lw1kGSjfddLQhQRoQ)
+- [ASP.NET Core Web中使用AutoMapper进行对象映射](https://mp.weixin.qq.com/s/i4Wn0ox22gIffB8UwoBZXQ)
 - [将 EasySQLite 从 .NET 8 升级到 .NET 9](https://mp.weixin.qq.com/s/EN5fu-RvBK-xX8lJMZ5QvA)
 - [在 .NET 9 中使用 Scalar 替代 Swagger](https://mp.weixin.qq.com/s/oYYqRa_1Bwn65SdcPWelSQ)
 
@@ -49,7 +50,6 @@ SQLite是一个轻量级的嵌入式关系型数据库，它以一个小型的C�
 - [10款值得推荐的Blazor UI组件库](https://mp.weixin.qq.com/s/HHqkwpXIi7p3K5eUnTcLTw)
 - [全面的ASP.NET Core Blazor简介和快速入门](https://mp.weixin.qq.com/s/hcZBhbTab02HqWqryB_oEA)
 - [.NET中使用BootstrapBlazor组件库Table实操篇](https://mp.weixin.qq.com/s/qFHUC9UKg_2wY2jSthI9Kw)
-- [ASP.NET Core Web中使用AutoMapper进行对象映射](https://mp.weixin.qq.com/s/i4Wn0ox22gIffB8UwoBZXQ)
 
 ## 使用技术栈和开发环境
 咱们的.NET 8操作SQLite入门到实战教程主要使用技术栈为如下所示：
