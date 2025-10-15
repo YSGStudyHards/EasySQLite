@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Entity;
 using Entity.ViewModel;
+using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using Utility;
 
@@ -13,7 +14,7 @@ namespace WebApi.Controllers
     [Route("api/[controller]/[action]")]
     public class StudentController : ControllerBase
     {
-        private readonly IMapper _mapper;
+        //private readonly IMapper _mapper;
         private readonly SQLiteAsyncHelper<Student> _studentHelper;
         private readonly SQLiteAsyncHelper<SchoolClass> _schoolClassHelper;
 
@@ -23,9 +24,9 @@ namespace WebApi.Controllers
         /// <param name="mapper">mapper</param>
         /// <param name="studentHelper">studentHelper</param>
         /// <param name="schoolClassHelper">schoolClassHelper</param>
-        public StudentController(IMapper mapper, SQLiteAsyncHelper<Student> studentHelper, SQLiteAsyncHelper<SchoolClass> schoolClassHelper)
+        public StudentController(/*IMapper mapper,*/ SQLiteAsyncHelper<Student> studentHelper, SQLiteAsyncHelper<SchoolClass> schoolClassHelper)
         {
-            _mapper = mapper;
+            //_mapper = mapper;
             _studentHelper = studentHelper;
             _schoolClassHelper = schoolClassHelper;
         }
@@ -86,7 +87,10 @@ namespace WebApi.Controllers
 
         private async Task<List<StudentViewModel>?> GetStudentClassInfo(List<Student> students)
         {
-            var studentsListDto = _mapper.Map<List<StudentViewModel>>(students);
+            //var studentsListDto = _mapper.Map<List<StudentViewModel>>(students);//AutoMapper 映射
+
+            // Mapster 映射（无需任何配置！）
+            var studentsListDto = students.Adapt<List<StudentViewModel>>();
             if (studentsListDto?.Count > 0)
             {
                 var classIDs = studentsListDto.Select(x => x.ClassID).Distinct().ToList();
