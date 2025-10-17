@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="Entity/Entity.csproj" />
+  <Project Path="Utility/Utility.csproj" />
+  <Project Path="WebApi/WebApi.csproj" />
+  <Project Path="WebUI/WebUI.csproj" />
+</Solution>
